@@ -29,6 +29,12 @@ const initialUsers = [
   }
 ]
 
+const testUser = {
+  username: "test",
+  name: "Test User",
+  password: "123456"
+}
+
 
 const nonExistingId = async () => {
   const blog = new Blog({ 
@@ -53,12 +59,6 @@ const usersInDb = async () => {
   return users.map(user => user.toJSON())
 }
 
-const testUser = {
-  username: "test",
-  name: "Test User",
-  password: "123456"
-}
-
 async function getValidToken(api) {
   const loginResponse = await api
     .post('/api/login')
@@ -68,7 +68,9 @@ async function getValidToken(api) {
     })
   
   if (loginResponse.status !== 200) {
-    throw new Error(`Login failed: ${loginResponse.body.error}`)
+    const errorMsg = loginResponse.body?.error || 'Unknown login error'
+    console.error('Login response:', loginResponse.status, loginResponse.body)
+    throw new Error(`Login failed: ${errorMsg}`)
   }
   
   return loginResponse.body.token

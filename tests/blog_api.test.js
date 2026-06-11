@@ -13,11 +13,15 @@ beforeEach(async () => {
   await Blog.deleteMany({})
   await User.deleteMany({})
 
-  await api.post('/api/users').send({
+  const userResponse = await api.post('/api/users').send({
     username: helper.testUser.username,
     name: helper.testUser.name,
     password: helper.testUser.password
   })
+
+  if (userResponse.status !== 201) {
+    throw new Error(`Failed to create test user: ${JSON.stringify(userResponse.body)}`)
+  }
 
   const blogObjects = helper.initialBlogs
     .map(blog => Blog(blog))
