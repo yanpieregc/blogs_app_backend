@@ -15,8 +15,10 @@ beforeEach(async () => {
     .map(user => User(user))
 
   const promiseArray = userObjects.map(user => user.save())
+
   await Promise.all(promiseArray)
 })
+
 
 test('users are returned as json', async () => {
   console.log('entered test')
@@ -41,13 +43,13 @@ test('identifier is idn not _id', async () => {
 
 test('password wrong', async () => {
   const newUser = {
-    username: "chavoi",
+    username: "chavo",
     name: "chav",
     password: "1",
   }
 
   await api
-    .post("/api/users")
+    .post('/api/users')
     .send(newUser)
     .expect(400)
 
@@ -62,8 +64,8 @@ test('username wrong', async () => {
     password: "123456",
   }
 
-  await api
-    .post("/api/users")
+  const response = await api
+    .post('/api/users')
     .send(newUser)
     .expect(400)
 
@@ -73,13 +75,13 @@ test('username wrong', async () => {
 
 test('create a new user', async () => {
   const newUser = {
-    username: "chavoi",
-    name: "chav",
-    password: "24680",
+    username: "rondamon",
+    name: "ron damon",
+    password: "123456",
   }
 
-  await api
-    .post("/api/users")
+  const response = await api
+    .post('/api/users')
     .send(newUser)
     .expect(201)
     .expect('Content-Type', /application\/json/)

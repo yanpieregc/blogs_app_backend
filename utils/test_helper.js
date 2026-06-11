@@ -3,41 +3,29 @@ import User from '../models/user.js'
 
 const initialBlogs = [
   {
-    _id: "5a422a851b54a676234d17f7",
     title: "React patterns",
     author: "Michael Chan",
     url: "https://reactpatterns.com/",
-    likes: 7,
-    user: "6a14d0b936ec5ca84625295d",
-    __v: 0
+    likes: 7
   },
   {
-    _id: "5a422aa71b54a676234d17f8",
     title: "Go To Statement Considered Harmful",
     author: "Edsger W. Dijkstra",
     url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
-    likes: 5,
-    user: "6a14d0ca36ec5ca84625295e",
-    __v: 0
+    likes: 5
   }
 ]
 
 const initialUsers = [
   {
-    _id: "6a14d0b936ec5ca84625295d",
     username: "yanpiere",
     name: "yanp",
-    password: "123456",
-    blogs: ["5a422a851b54a676234d17f7"],
-    __v: 0
+    password: "123456"
   },
   {
-    _id: "6a14d0ca36ec5ca84625295e",
     username: "root",
     name: "Superuser",
-    password: "654321",
-    blogs: ["5a422aa71b54a676234d17f8"],
-    __v: 0
+    password: "654321"
   }
 ]
 

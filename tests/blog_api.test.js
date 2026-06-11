@@ -4,19 +4,29 @@ import app from '../app.js'
 import supertest from 'supertest'
 import assert from 'node:assert'
 import Blog from '../models/blog.js'
+import User from '../models/user.js'
 import helper from '../utils/test_helper.js'
 
 const api = supertest(app)
 
 beforeEach(async () => {
   await Blog.deleteMany({})
+  await User.deleteMany({})
+
+  await api.post('/api/users').send({
+    username: 'chavoi',
+    name: 'chav',
+    password: '24680'
+  })
 
   const blogObjects = helper.initialBlogs
     .map(blog => Blog(blog))
 
   const promiseArray = blogObjects.map(blog => blog.save())
+
   await Promise.all(promiseArray)
 })
+
 
 test('blogs are returned as json', async () => {
   console.log('entered test')
@@ -49,13 +59,12 @@ test('create a new blog', async () => {
     })
 
   const token = loginResponse.body.token
-  const user = helper.initialUsers
 
   const newBlog = {
     title: "pipipi",
     author: "chavo del pocho",
     url: "https://pipipi.pi",
-    likes: 70
+    likes: 90
   }
 
   await api
@@ -70,6 +79,7 @@ test('create a new blog', async () => {
 })
 
 test('if not likes, default 0', async () => {
+
   const loginResponse = await api
     .post('/api/login')
     .send({
@@ -98,6 +108,7 @@ test('if not likes, default 0', async () => {
 })
 
 test('if title or url is empty, response with 400 bad request', async () => {
+
   const loginResponse = await api
     .post('/api/login')
     .send({
@@ -125,6 +136,7 @@ test('if title or url is empty, response with 400 bad request', async () => {
 })
 
 test('delete one blog only its creator', async () => {
+
   const loginResponse = await api
     .post('/api/login')
     .send({
@@ -164,6 +176,7 @@ test('delete one blog only its creator', async () => {
 })
 
 test('updating likes of one blog only its creator', async () => {
+
   const loginResponse = await api
     .post('/api/login')
     .send({
@@ -204,8 +217,9 @@ test('updating likes of one blog only its creator', async () => {
   const blogsAtEnd = await helper.blogsInDb()
   assert.strictEqual(blogsAtEnd.length, blogsAtStart.length)
 
-  assert(blogCreated.body.likes, updateBlog.likes)
+  assert.strictEqual(blogsAtEnd.find(b => b.id === blogCreated.body.id).likes, updateBlog.likes)
 })
+
 
 after(async () => {
   await mongoose.connection.close()
