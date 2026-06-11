@@ -53,16 +53,25 @@ const usersInDb = async () => {
   return users.map(user => user.toJSON())
 }
 
+const testUser = {
+  username: "test",
+  name: "Test User",
+  password: "123456"
+}
+
 async function getValidToken(api) {
   const loginResponse = await api
     .post('/api/login')
     .send({
-      username: "chavoi",
-      password: "24680"
+      username: testUser.username,
+      password: testUser.password
     })
-    .expect(200)
+  
+  if (loginResponse.status !== 200) {
+    throw new Error(`Login failed: ${loginResponse.body.error}`)
+  }
   
   return loginResponse.body.token
 }
 
-export default { initialBlogs, initialUsers, nonExistingId, blogsInDb, usersInDb, getValidToken }
+export default { initialBlogs, initialUsers, nonExistingId, blogsInDb, usersInDb, getValidToken, testUser }

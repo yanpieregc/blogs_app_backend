@@ -14,9 +14,9 @@ beforeEach(async () => {
   await User.deleteMany({})
 
   await api.post('/api/users').send({
-    username: 'chavoi',
-    name: 'chav',
-    password: '24680'
+    username: helper.testUser.username,
+    name: helper.testUser.name,
+    password: helper.testUser.password
   })
 
   const blogObjects = helper.initialBlogs
@@ -94,15 +94,7 @@ test('if not likes, default 0', async () => {
 
 test('if title or url is empty, response with 400 bad request', async () => {
 
-  const loginResponse = await api
-    .post('/api/login')
-    .send({
-      username: "chavoi",
-      password: "24680"
-    })
-
-  const token = loginResponse.body.token
-  const user = helper.initialUsers
+  const token = await helper.getValidToken(api)
 
   const newBlog = {
     author: "goofy",
