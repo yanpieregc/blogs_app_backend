@@ -51,14 +51,7 @@ test('identifier is idn not _id', async () => {
 
 test('create a new blog', async () => {
 
-  const loginResponse = await api
-    .post('/api/login')
-    .send({
-      username: "chavoi",
-      password: "24680"
-    })
-
-  const token = loginResponse.body.token
+  const token = await helper.getValidToken(api)
 
   const newBlog = {
     title: "pipipi",
@@ -80,15 +73,7 @@ test('create a new blog', async () => {
 
 test('if not likes, default 0', async () => {
 
-  const loginResponse = await api
-    .post('/api/login')
-    .send({
-      username: "chavoi",
-      password: "24680"
-    })
-
-  const token = loginResponse.body.token
-  const user = helper.initialUsers
+  const token = await helper.getValidToken(api)
 
   const newBlog = {
     title: "ajio ajio ajio",
@@ -137,14 +122,7 @@ test('if title or url is empty, response with 400 bad request', async () => {
 
 test('delete one blog only its creator', async () => {
 
-  const loginResponse = await api
-    .post('/api/login')
-    .send({
-      username: "chavoi",
-      password: "24680"
-    })
-  
-  const token = loginResponse.body.token
+  const token = await helper.getValidToken(api)
 
   const newBlog = {
     title: "pipipi",
@@ -177,14 +155,7 @@ test('delete one blog only its creator', async () => {
 
 test('updating likes of one blog only its creator', async () => {
 
-  const loginResponse = await api
-    .post('/api/login')
-    .send({
-      username: "chavoi",
-      password: "24680"
-    })
-  
-  const token = loginResponse.body.token
+  const token = await helper.getValidToken(api)
 
   const newBlog = {
     title: "pipipi",
