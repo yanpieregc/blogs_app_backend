@@ -6,7 +6,8 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test node --test --test-concurrency=1",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
-    "start": "cross-env NODE_ENV=production node index.js"
+    "start": "cross-env NODE_ENV=production node index.js",
+    "start:test": "cross-env NODE_ENV=test node index.js"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +15,7 @@
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "^11.1.1",
+      "version": "11.8.0",
       "onFail": "download"
     }
   },
