@@ -1,6 +1,7 @@
 import express from 'express'
 const app = express()
 import mongoose from 'mongoose'
+import cors from 'cors'
 import blogsRouter from './controllers/blogs.js'
 import usersRouter from './controllers/users.js'
 import loginRouter from './controllers/login.js'
@@ -17,6 +18,7 @@ mongoose.connect(config.MONGODB_URI)
 
 app.use(express.static('dist'))
 app.use(express.json())
+app.use(cors())
 app.use(middleware.tokenExtractor)
 app.use('/api/login', loginRouter)
 app.use('/api/users', usersRouter)
