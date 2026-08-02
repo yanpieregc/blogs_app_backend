@@ -1,4 +1,5 @@
 import express from 'express'
+import dns from 'node:dns'
 const app = express()
 import mongoose from 'mongoose'
 import cors from 'cors'
@@ -10,11 +11,12 @@ import logger from './utils/logger.js'
 import config from './utils/config.js'
 import middleware from './utils/middleware.js'
 
-mongoose.set('strictQuery', false)
+dns.setServers(['8.8.8.8', '1.1.1.1'])
 
-mongoose.connect(config.MONGODB_URI)
+mongoose.set('strictQuery', false)
+await mongoose.connect(config.MONGODB_URI)
   .then(() => logger.info('connect to MongoDB'))
-  .catch(error => logger.error('error connecting MongoDB', error.message))
+  .catch(error => console.error(error))
 
 app.use(express.static('dist'))
 app.use(express.json())
